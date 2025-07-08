@@ -55,7 +55,7 @@ if time_to_insert:
 cnx = st.connection("snowflake")
 session = cnx.session()
 
-
+streamlit.title('My Parents New Healthy Diner')
 
     
 

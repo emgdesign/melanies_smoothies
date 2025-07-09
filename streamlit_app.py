@@ -1,5 +1,6 @@
 # Import python packages
 import streamlit as st
+from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 
 
@@ -29,12 +30,15 @@ ingredients_list = st.multiselect(
 
 
 
-if ingredients_list:
-   ingredients_string = ''
 
-for fruit_chosen in ingredients_list:
-    ingredients_string += fruit_chosen + ''
-    st.subheader
+if ingredients_list:
+    
+    
+    ingredients_string = ''
+
+    for fruit_chosen in ingredients_list:
+        ingredients_string += fruit_chosen + ''
+
     st.write(ingredients_string)
 
 my_insert_stmt = """ insert into smoothies.public.orders(ingredients)
@@ -49,40 +53,8 @@ if time_to_insert:
     session.sql(my_insert_stmt).collect()
     st.success('Your Smoothie is ordered!', icon="✅")
 
-cnx = st.connection("snowflake")
-session = cnx.session()
-
-my_dataframe = session.table('smoothies.public.fruit_options').select(col('FRUIT_NAME'),col('SEARCH_ON'))
-#st.dataframe(data=my_dataframe, use_container_width=True)
-#st.stop()
-
-# Convert the Snowpark Dataframe to a Pandas Dataframe so we can use the LOC function
-pd_df=my_dataframe.to_pandas()
-st.dataframe(pd_df)
-st.stop()
-
-ingredients_list = st.multiselect(
-    'Choose up to 5 ingredients:'
-    , my_dataframe
-    , max_selections=5
-    )
-
-ingredient_list = st.multiselect()
-
-#streamlit.title('My Parents New Healthy Diner')
 
     
 
-import requests
-smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
-
-if ingredients_list:
-   ingredients_string = ''
-
-for fruit_chosen in ingredients_list:
-    ingredients_string += fruit_chosen + ''
-    smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-    sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
     

@@ -53,7 +53,7 @@ if ingredients_list:
         my_insert_stmt = """ insert into smoothies.public.orders(ingredients)
         fv_df = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
 
-    #st.write(ingredients_string)
+    st.write(ingredients_string)
               values ('""" + ingredients_string + """','""" + name_on_order + """')"""
 
 #st.write(my_insert_stmt)
